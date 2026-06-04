@@ -16,7 +16,7 @@ stages {
     stage('Checkout') {
         steps {
             git branch: 'main',
-            url: 'https://github.com/vishnuvardhandhadam/jenkins-java-project1.git'
+                url: 'https://github.com/vishnuvardhandhadam/jenkins-java-project1.git'
         }
     }
 
@@ -40,10 +40,10 @@ stages {
 
     stage('Build Docker Image') {
         steps {
-            sh '''
-            docker build -t $IMAGE_NAME:$IMAGE_TAG .
-            docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
-            '''
+            sh """
+            docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+            docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest
+            """
         }
     }
 
@@ -63,24 +63,24 @@ stages {
 
     stage('Push Docker Image') {
         steps {
-            sh '''
-            docker push $IMAGE_NAME:$IMAGE_TAG
-            docker push $IMAGE_NAME:latest
-            '''
+            sh """
+            docker push ${IMAGE_NAME}:${IMAGE_TAG}
+            docker push ${IMAGE_NAME}:latest
+            """
         }
     }
 
     stage('Deploy Container') {
         steps {
-            sh '''
+            sh """
             docker stop java-app || true
             docker rm java-app || true
 
             docker run -d \
             --name java-app \
             -p 8080:8080 \
-            $IMAGE_NAME:latest
-            '''
+            ${IMAGE_NAME}:latest
+            """
         }
     }
 }
