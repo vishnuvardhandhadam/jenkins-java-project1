@@ -1,9 +1,8 @@
 pipeline {
-agent any
-
 tools {
-    maven 'maven'
+    maven 'Maven'
 }
+
 
 environment {
     IMAGE_NAME = "vishnuvardhan8328/java-app"
